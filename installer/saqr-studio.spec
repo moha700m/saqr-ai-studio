@@ -40,7 +40,7 @@ pyz = PYZ(a.pure, a.zipped_data, cipher=block_cipher)
 exe = EXE(
     pyz, a.scripts, [], exclude_binaries=True,
     name="SaqrAIStudio", debug=False, bootloader_ignore_signals=False,
-    strip=False, upx=False, console=False,
+    strip=False, upx=False, console=True,  # CLI needs stdout; the launcher hides it for the GUI
     icon=None,
 )
 coll = COLLECT(

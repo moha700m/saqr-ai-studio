@@ -22,3 +22,5 @@ What the installer does:
 
 Code signing is not configured. Add your certificate to `SignTool` in Inno Setup to
 avoid SmartScreen warnings. Unsigned builds still run.
+
+The frozen exe keeps a console for `doctor`/`models` commands and hides it when the GUI starts.
