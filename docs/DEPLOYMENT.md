@@ -5,11 +5,21 @@
 | الهدف | الحالة | الرابط |
 |---|---|---|
 | GitHub (عام) | منشور | https://github.com/moha700m/saqr-ai-studio |
-| GitHub Pages (عرض ثابت) | **غير منشور** — البناء عالق في `building` | https://moha700m.github.io/saqr-ai-studio/ |
+| GitHub Pages (عرض ثابت) | **منشور** | https://moha700m.github.io/saqr-ai-studio/ |
 | Cloudflare Pages | سير عمل جاهز، لا توكن | — |
 | مثبّت Windows | إصدار `v0.9.0` | صفحة Releases |
 
-## GitHub Pages
+## GitHub Pages (منشور)
+
+البناء يُنشر إلى فرع `gh-pages` عبر `peaceiris/actions-gh-pages`، وGitHub Pages يخدمه
+بـ «Deploy from a branch». تحقق آلي: 200 على 12 مسارًا × مقاسين، بلا تجاوز أو أخطاء JS.
+
+### لماذا ليس Actions/artifact؟
+
+`actions/deploy-pages` بقي `in_progress` أكثر من 7 دقائق لهذا الحساب. فرع `gh-pages`
+عمل فورًا، لذا اعتمدناه. سير Cloudflare يبقى المسار الإنتاجي عند توفر الحساب.
+
+الواجهة تعمل على HTTPS، لكن جسر `127.0.0.1` قد يُحظر من Safari بسبب mixed content.
 
 - البناء يستخدم `base: './'` و`HashRouter` ليعمل تحت مسار `/saqr-ai-studio/`.
 - سير العمل: `.github/workflows/pages.yml`.

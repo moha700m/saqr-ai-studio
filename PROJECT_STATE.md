@@ -5,7 +5,7 @@
 المستودع: https://github.com/moha700m/saqr-ai-studio (عام)
 CI: ناجح على Linux/Windows/macOS (Python 3.11 و3.12) + web + lint.
 المثبّت: منشور في `v0.9.0`.
-الموقع العام: غير منشور — GitHub Pages عالق في `building`.
+الموقع العام: https://moha700m.github.io/saqr-ai-studio/ (منشور عبر gh-pages).
 
 ## ملخص صادق
 
