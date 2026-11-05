@@ -111,3 +111,23 @@ def test_session_can_be_revoked(bridge):
     headers = {**ORIGIN, "Authorization": f"Bearer {token}"}
     assert client.post("/api/session/revoke", headers=headers).status_code == 200
     assert client.get("/api/session", headers=headers).status_code == 401
+
+
+def test_packaged_same_origin_is_allowed(settings):
+    """The desktop serves web/dist from :8765, so that Origin must pass the guard."""
+    auth = BridgeAuth(allowed_origins=settings.allowed_origins)
+    client = TestClient(create_app(settings=settings, auth=auth))
+    response = client.get("/api/health", headers={"Origin": "http://127.0.0.1:8765"})
+    assert response.status_code == 200
+
+
+def test_serves_built_web_ui_when_present(bridge):
+    from pathlib import Path
+
+    dist = Path(__file__).resolve().parents[1] / "web" / "dist" / "index.html"
+    if not dist.exists():
+        pytest.skip("web build not present")
+    client, _ = bridge
+    response = client.get("/")
+    assert response.status_code == 200
+    assert "SAQR" in response.text

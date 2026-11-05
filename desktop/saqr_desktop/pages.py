@@ -89,9 +89,9 @@ class DashboardPage(QWidget):
 
     def start_bridge(self):
         self.runtime.start_bridge()
-        self.runtime.bridge.started.connect(lambda url: self.cards["bridge"].set("يعمل", url))
         self.runtime.bridge.failed.connect(lambda msg: self.cards["bridge"].set("خطأ", msg[:50]))
-        self.toast("جارٍ بدء الجسر المحلي على 127.0.0.1")
+        self.cards["bridge"].set("يعمل", f"http://127.0.0.1:{self.runtime.settings.api_port}")
+        self.toast("يعمل الجسر المحلي على 127.0.0.1")
 
 
 class HardwarePage(QWidget):
@@ -238,18 +238,12 @@ class FaceStudioPage(QWidget):
         self.target_view.set_frame(frame)
 
     def capture(self):
-        if not self.runtime.camera:
+        camera = self.runtime.camera
+        frame = getattr(camera, "latest", None) if camera else None
+        if frame is None:
             self.toast("شغّل الكاميرا من صفحة الكاميرا المباشرة أولًا")
             return
-        self.toast("التقاط الإطار التالي…")
-        def grab():
-            cap = cv2.VideoCapture(self.runtime.camera.index)
-            ok, frame = cap.read()
-            cap.release()
-            if not ok:
-                raise RuntimeError("تعذّر التقاط إطار")
-            return frame
-        self.runtime.submit(grab, on_done=self._captured, on_error=lambda m: self.toast(m))
+        self._captured(frame.copy())
 
     def _captured(self, frame):
         self.target_frame = frame
@@ -349,6 +343,7 @@ class LivePage(QWidget):
         self.camera.stats_ready.connect(lambda s: self.stats.setText(f"{s['fps']} FPS · {s['frames']} إطار"))
         self.camera.failed.connect(lambda m: self.toast(m))
         self.camera.start()
+        self.runtime.camera = self.camera
         self.timer.start()
         self.notice.setText("الكاميرا تعمل. الإطارات تُعالج في الذاكرة فقط.")
 
@@ -357,6 +352,7 @@ class LivePage(QWidget):
         if getattr(self, "camera", None):
             self.camera.stop()
             self.camera = None
+            self.runtime.camera = None
         self.original_view.set_frame(None)
         self.output_view.set_frame(None)
         self.notice.setText("الكاميرا متوقفة.")
@@ -686,9 +682,8 @@ class SettingsPage(QWidget):
     def start_bridge(self):
         self.runtime.start_bridge()
         bridge = self.runtime.bridge
-        bridge.started.connect(lambda url: self.bridge_status.setText(f"يعمل على {url}"))
         bridge.failed.connect(lambda msg: self.bridge_status.setText(f"خطأ: {msg}"))
-        self.bridge_status.setText("جارٍ البدء…")
+        self.bridge_status.setText(f"يعمل على http://127.0.0.1:{self.runtime.settings.api_port}")
 
     def new_code(self):
         if not self.runtime.bridge or not self.runtime.bridge.isRunning():

@@ -54,6 +54,7 @@ class CameraThread(QThread):
         self._capture: cv2.VideoCapture | None = None
         self.frames = 0
         self.fps = 0.0
+        self.latest = None
 
     def run(self) -> None:  # noqa: D401
         self._capture = cv2.VideoCapture(self.index)
@@ -70,6 +71,7 @@ class CameraThread(QThread):
                 time.sleep(0.02)
                 continue
             self.frames += 1
+            self.latest = frame
             count += 1
             now = time.perf_counter()
             if now - start >= 1.0:
