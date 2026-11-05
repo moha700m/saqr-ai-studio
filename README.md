@@ -1,5 +1,9 @@
 # SAQR AI Studio
 
+[![CI](https://github.com/moha700m/saqr-ai-studio/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/moha700m/saqr-ai-studio/actions/workflows/ci.yml)
+[![Security](https://github.com/moha700m/saqr-ai-studio/actions/workflows/security.yml/badge.svg?branch=main)](https://github.com/moha700m/saqr-ai-studio/actions/workflows/security.yml)
+[![License: AGPL-3.0](https://img.shields.io/badge/license-AGPL--3.0-blue.svg)](LICENSE)
+
 بديل عملي لـ DeepLiveCam: محرك ONNX للكشف والتبديل، تطبيق سطح مكتب PySide6، واجهة ويب،
 جسر محلي آمن، ومعالجة صور/فيديو — بافتراضات خصوصية صريحة.
 
