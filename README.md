@@ -3,6 +3,8 @@
 بديل عملي لـ DeepLiveCam: محرك ONNX للكشف والتبديل، تطبيق سطح مكتب PySide6، واجهة ويب،
 جسر محلي آمن، ومعالجة صور/فيديو — بافتراضات خصوصية صريحة.
 
+> المستودع: https://github.com/moha700m/saqr-ai-studio
+>
 > **الحالة:** معاينة 0.9. كل الأرقام في `TEST_REPORT.md` مقيسة فعليًا داخل بيئة Linux CPU.
 > ما لم يُختبر (Windows، GPU، كاميرا حقيقية، مثبّت موقّع) مذكور صراحة في `PROJECT_STATE.md`.
 
@@ -29,7 +31,7 @@
 ## البدء السريع (Linux/macOS)
 
 ```bash
-git clone <repo> saqr-ai-studio && cd saqr-ai-studio
+git clone https://github.com/moha700m/saqr-ai-studio.git && cd saqr-ai-studio
 ./scripts/bootstrap.sh
 
 saqr models download yunet-2023mar
