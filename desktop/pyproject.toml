@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "saqr-desktop"
+version = "0.9.0"
+description = "SAQR AI Studio desktop application (PySide6)"
+requires-python = ">=3.10"
+dependencies = ["saqr-engine>=0.9.0", "PySide6>=6.6"]
+
+[project.scripts]
+saqr-studio = "saqr_desktop.app:main"
+
+[tool.setuptools.packages.find]
+include = ["saqr_desktop*"]
