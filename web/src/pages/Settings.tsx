@@ -7,14 +7,10 @@ import { BRIDGE_BASE } from '../lib/bridge';
 const STORAGE_KEY = 'saqr.settings.v1';
 
 interface LocalSettings {
-  cloudEnabled: boolean;
   autoCamera: boolean;
-  saveMedia: boolean;
-  telemetry: boolean;
-  autoStart: boolean;
 }
 
-const defaults: LocalSettings = { cloudEnabled: false, autoCamera: false, saveMedia: false, telemetry: false, autoStart: false };
+const defaults: LocalSettings = { autoCamera: false };
 
 function loadSettings(): LocalSettings {
   try {
@@ -89,10 +85,18 @@ export default function Settings() {
 
           <Panel>
             <PanelHead title="الخصوصية" hint="محفوظة في هذا المتصفح فقط" />
-            <Toggle title="المعالجة السحابية" desc="معطّلة افتراضيًا. تتطلب عنوان endpoint تملكه وموافقة لكل ملف." checked={settings.cloudEnabled} onChange={(v) => update({ cloudEnabled: v })} />
-            <Toggle title="تشغيل الكاميرا تلقائيًا" desc="لا تفتح الكاميرا إلا بعد ضغطك على «تشغيل»." checked={settings.autoCamera} onChange={(v) => update({ autoCamera: v })} />
-            <Toggle title="حفظ الوسائط المعالجة" desc="لا تُحفظ أي نتيجة على القرص دون تنزيل يدوي." checked={settings.saveMedia} onChange={(v) => update({ saveMedia: v })} />
-            <Toggle title="إحصاءات الاستخدام" desc="لا يوجد إرسال تليمترية في هذه النسخة." checked={settings.telemetry} onChange={(v) => update({ telemetry: v })} />
+            <Toggle title="تشغيل الكاميرا تلقائيًا" desc="إن فعّلته، تفتح صفحة الكاميرا الطلب فورًا. المتصفح قد يطلبه مرة أخرى." checked={settings.autoCamera} onChange={(v) => update({ autoCamera: v })} />
+            {[
+              ['المعالجة السحابية', 'معطّلة — لا مزوّد مضمّن'],
+              ['حفظ الوسائط المعالجة', 'يدوي فقط'],
+              ['رفع تلقائي', 'غير موجود'],
+              ['تليمترية', 'غير موجودة'],
+            ].map(([title, value]) => (
+              <div className="toggle-row" key={title}>
+                <div className="txt"><b>{title}</b><small>{value}</small></div>
+                <span className="badge"><span className="dot" />{value}</span>
+              </div>
+            ))}
             <div className="notice" style={{ marginTop: 12 }}>
               <IconWifiOff />
               <span>هذه الخيارات تخص واجهة الويب. إعدادات المحرك المكتبي تُدار من التطبيق نفسه.</span>

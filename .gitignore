@@ -9,6 +9,7 @@ dist/
 .ruff_cache/
 node_modules/
 web/dist/
+web/tsconfig.tsbuildinfo
 web/public/mediapipe/wasm/
 web/public/mediapipe/*.tflite
 models/*.onnx

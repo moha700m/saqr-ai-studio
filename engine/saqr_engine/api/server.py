@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import base64
 import logging
+import sys
 import threading
 import time
 from pathlib import Path
@@ -48,6 +49,10 @@ class FrameRequest(BaseModel):
     image: str
     swap: bool = True
     strength: float = Field(default=1.0, ge=0.0, le=1.0)
+    mouth_mask: bool | None = None
+    keep_eyes: bool = False
+    feather: int = Field(default=21, ge=3, le=61)
+    enhance: bool = False
 
 
 class AcceptLicenseRequest(BaseModel):
@@ -237,8 +242,13 @@ def create_app(
         from ..face.swapper import SwapOptions
 
         result = engine.process(image, swap=body.swap,
-                                options=SwapOptions(strength=body.strength,
-                                                    keep_mouth=settings.mouth_mask))
+                                options=SwapOptions(
+                                    strength=body.strength,
+                                    keep_mouth=settings.mouth_mask if body.mouth_mask is None else body.mouth_mask,
+                                    keep_eyes=body.keep_eyes,
+                                    feather=body.feather,
+                                    enhance=body.enhance,
+                                ))
         return {
             "image": _encode_jpeg(result.frame, 90),
             "metrics": result.metrics,
@@ -272,8 +282,12 @@ def create_app(
     def favicon():
         return Response(status_code=204)
 
-    dist = Path(__file__).resolve().parents[3] / "web" / "dist"
-    if dist.exists():
+    candidates = [Path(__file__).resolve().parents[3] / "web" / "dist"]
+    if hasattr(sys, "_MEIPASS"):
+        candidates.append(Path(sys._MEIPASS) / "web" / "dist")
+    candidates.append(Path.cwd() / "web" / "dist")
+    dist = next((path for path in candidates if path.exists()), None)
+    if dist is not None:
         from fastapi.staticfiles import StaticFiles
 
         app.mount("/assets", StaticFiles(directory=dist / "assets"), name="assets")

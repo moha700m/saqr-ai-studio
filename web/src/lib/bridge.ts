@@ -138,6 +138,21 @@ export const bridge = {
   setSource: (image: string, name = 'source') =>
     request<{ name: string; thumbnail: string }>('/api/source', { method: 'POST', body: JSON.stringify({ image, name }) }, 45000),
 
-  processFrame: (image: string, swap = true, strength = 1) =>
-    request<FrameResult>('/api/frame', { method: 'POST', body: JSON.stringify({ image, swap, strength }) }, 45000),
+  processFrame: (
+    image: string,
+    swap = true,
+    options: { strength?: number; mouthMask?: boolean | null; keepEyes?: boolean; feather?: number; enhance?: boolean } = {},
+  ) =>
+    request<FrameResult>('/api/frame', {
+      method: 'POST',
+      body: JSON.stringify({
+        image,
+        swap,
+        strength: options.strength ?? 1,
+        mouth_mask: options.mouthMask ?? null,
+        keep_eyes: options.keepEyes ?? false,
+        feather: options.feather ?? 21,
+        enhance: options.enhance ?? false,
+      }),
+    }, 45000),
 };

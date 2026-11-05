@@ -54,7 +54,9 @@ export default function Studio() {
     setError(null);
     try {
       if (!paired) throw new Error('المحرك المكتبي غير مقترن. افتح الإعدادات وأدخل رمز الاقتران أولًا.');
-      const response = await bridge.processFrame(stripDataUrl(target), true, strength);
+      const response = await bridge.processFrame(stripDataUrl(target), true, {
+        strength, mouthMask: keepMouth, keepEyes, feather, enhance,
+      });
       setResult(`data:image/jpeg;base64,${response.image}`);
       setMetrics(response.metrics);
       if (response.error) setError(response.error);

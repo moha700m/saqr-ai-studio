@@ -19,6 +19,7 @@ export default function VideoStudio() {
   const chunks = useRef<Blob[]>([]);
   const [fileUrl, setFileUrl] = useState<string | null>(null);
   const [meta, setMeta] = useState<Meta | null>(null);
+  const fileName = useRef('clip');
   const [time, setTime] = useState(0);
   const [start, setStart] = useState(0);
   const [end, setEnd] = useState(0);
@@ -137,7 +138,7 @@ export default function VideoStudio() {
               const video = videoRef.current;
               if (!video) return;
               const seconds = Number.isFinite(video.duration) ? video.duration : 0;
-              setMeta({ name: 'clip', size: 0, duration: seconds, width: video.videoWidth, height: video.videoHeight });
+              setMeta({ name: fileName.current, size: 0, duration: seconds, width: video.videoWidth, height: video.videoHeight });
               setEnd(Math.min(seconds, 10));
               setStart(0);
               drawFrame();
@@ -154,12 +155,13 @@ export default function VideoStudio() {
           <input ref={fileRef} type="file" accept="video/*" hidden onChange={(e) => {
             const file = e.target.files?.[0];
             if (file) {
+              fileName.current = file.name;
               void pick(file).then(() => {
                 const video = videoRef.current;
                 if (video) {
                   video.onloadedmetadata = () => {
                     const seconds = Number.isFinite(video.duration) ? video.duration : 0;
-                    setMeta({ name: file.name, size: file.size, duration: seconds, width: video.videoWidth, height: video.videoHeight });
+                    setMeta({ name: fileName.current, size: file.size, duration: seconds, width: video.videoWidth, height: video.videoHeight });
                     setEnd(Math.min(seconds, 10));
                     setStart(0);
                   };

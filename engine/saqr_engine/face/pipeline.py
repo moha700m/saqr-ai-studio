@@ -109,6 +109,8 @@ class FaceEngine:
                         keep_mouth=self.settings.mouth_mask,
                         output_order="rgb",
                     ))
+                    if self.source is not None:
+                        self.swapper.set_source(self.source.aligned)
             except (ModelError, SwapperError) as exc:
                 self.load_errors.append(f"swapper: {exc}")
                 log.warning("swapper unavailable: %s", exc)
@@ -210,7 +212,7 @@ class FaceEngine:
                         aligned, matrix = align_face(frame, face.landmarks, self.swapper.size)
                         self.swapper.set_source(source.aligned)
                         result = self.swapper.swap(aligned)
-                        if self.enhancer is not None and self.settings.face_enhance:
+                        if self.enhancer is not None and (options.enhance or self.settings.face_enhance):
                             result = self.enhancer.enhance(result, self.settings.enhancement_blend)
                         alpha = self._mask(options)
                         from .align import paste_back

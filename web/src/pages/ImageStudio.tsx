@@ -29,6 +29,19 @@ export default function ImageStudio() {
     setInput(url);
   };
 
+  const download = () => {
+    if (!output) return;
+    const image = new Image();
+    image.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = image.naturalWidth;
+      canvas.height = image.naturalHeight;
+      canvas.getContext('2d')?.drawImage(image, 0, 0);
+      downloadDataUrl(canvas.toDataURL('image/jpeg', quality), `saqr-${info?.name ?? 'result'}.jpg`);
+    };
+    image.src = output;
+  };
+
   const process = async () => {
     if (!input) return;
     setBusy(true);
@@ -37,7 +50,7 @@ export default function ImageStudio() {
       if (!paired) throw new Error('المعالجة تحتاج اقترانًا بمحرك سطح المكتب.');
       if (!source) throw new Error('اختر صورة مصدر أولًا (وجه واحد واضح).');
       await bridge.setSource(stripDataUrl(source), 'image-studio');
-      const response = await bridge.processFrame(stripDataUrl(input), true, 1);
+      const response = await bridge.processFrame(stripDataUrl(input), true, {});
       setOutput(`data:image/jpeg;base64,${response.image}`);
       setMetrics(response.metrics);
       if (response.error) setError(response.error);
@@ -81,7 +94,7 @@ export default function ImageStudio() {
               {busy ? 'جارٍ التنفيذ…' : 'معالجة الصورة'}
             </button>
             {output && (
-              <button className="btn btn-sm" onClick={() => downloadDataUrl(output, `saqr-${info?.name ?? 'result'}.jpg`)}>
+              <button className="btn btn-sm" onClick={download}>
                 <IconDownload /> تنزيل
               </button>
             )}

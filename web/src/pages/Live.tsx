@@ -39,6 +39,7 @@ export default function Live() {
   const [result, setResult] = useState<string | null>(null);
   const [metrics, setMetrics] = useState<Metrics | null>(null);
   const [engineBusy, setEngineBusy] = useState(false);
+  const autoStarted = useRef(false);
 
   const draw = useCallback((detections: BrowserFace[]) => {
     const canvas = canvasRef.current;
@@ -148,6 +149,17 @@ export default function Live() {
   useEffect(() => () => stop(), [stop]);
 
   useEffect(() => {
+    if (autoStarted.current) return;
+    autoStarted.current = true;
+    try {
+      const saved = JSON.parse(localStorage.getItem('saqr.settings.v1') ?? '{}');
+      if (saved.autoCamera) void start();
+    } catch {
+      /* ignore malformed settings */
+    }
+  }, [start]);
+
+  useEffect(() => {
     if (!streamToEngine || !paired || !running) {
       if (streamTimer.current) window.clearTimeout(streamTimer.current);
       streamTimer.current = null;
@@ -162,7 +174,7 @@ export default function Live() {
           streamingBusy.current = true;
           setEngineBusy(true);
           try {
-            const response = await bridge.processFrame(stripDataUrl(frame), true, 1);
+            const response = await bridge.processFrame(stripDataUrl(frame), true, { strength: 1 });
             if (!cancelled) {
               setResult(`data:image/jpeg;base64,${response.image}`);
               setMetrics(response.metrics);

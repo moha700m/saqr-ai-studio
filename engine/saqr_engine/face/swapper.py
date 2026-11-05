@@ -37,6 +37,7 @@ class SwapOptions:
     feather: int = 21
     output_order: str = "rgb"   # inswapper emits RGB; set to "bgr" for BGR exports
     blend: float = 1.0
+    enhance: bool = False
 
 
 @dataclass

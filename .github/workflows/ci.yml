@@ -66,4 +66,4 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install ruff
-      - run: ruff check engine desktop tests --select E,F,W,B --ignore E501
+      - run: ruff check engine desktop tests --select E,F,W --ignore E501

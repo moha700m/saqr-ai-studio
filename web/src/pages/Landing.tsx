@@ -35,7 +35,7 @@ export default function Landing() {
         <div className="hero-grid">
           <div>
             <span className="badge badge-violet"><span className="dot" />إصدار المعاينة 0.9 — محرك حقيقي</span>
-            <h1>استوديو الوجوه<br />الذي يعرف جهازك.</h1>
+            <h1>استوديو الوجوه<br /> الذي يعرف جهازك.</h1>
             <p>
               بديل DeepLiveCam مبني من الصفر: كشف عتاد، اختيار خلفية موثّق، تبديل وجوه ONNX،
               كاميرا مباشرة، ومعالجة صور وفيديو — كل ذلك محليًا على جهازك، مع جسر آمن للواجهة.
