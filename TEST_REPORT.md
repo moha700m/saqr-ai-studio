@@ -24,7 +24,7 @@
 
 ```
 $ python -m pytest -q
-51 passed, 2 warnings in 3.60s
+53 passed, 2 warnings in 3.66s
 ```
 
 | الملف | التغطية | العدد |
@@ -33,7 +33,7 @@ $ python -m pytest -q
 | `test_models.py` | تراخيص، بوابة موافقة، SHA-256، رفض رسم غير صالح، حذف | 7 |
 | `test_face.py` | Umeyama (هوية + تشابه معروف)، قناع، لصق | 6 |
 | `test_swapper.py` | كشف توقيع الرسم، latent caching، dual-image، رفض | 6 |
-| `test_api.py` | اقتران، رمز لمرة واحدة، 401/403/429، حد الحجم، 503 | 11 |
+| `test_api.py` | اقتران، رمز لمرة واحدة، 401/403/429، حد الحجم، 503، same-origin، static | 13 |
 | `test_camera.py` | التقاط، إسقاط الإطارات القديمة، فشل الفتح، OBS | 4 |
 | `test_video.py` | كتابة/قراءة MP4، 20 إطارًا، إلغاء، صورة | 4 |
 | `test_cloud.py` | تعطيل، موافقة مطابقة، رفع فعلي، عدم الرفع الصامت | 4 |

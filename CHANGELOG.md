@@ -16,7 +16,7 @@
 - واجهة ويب عربية RTL بـ12 صفحة، كاميرا، كشف MediaPipe، وجسر.
 - مثبّت Windows: PyInstaller + Inno Setup + postinstall.
 - أربعة سير عمل GitHub Actions.
-- 51 اختبار pytest وتقارير حالة/اختبار.
+- 53 اختبار pytest وتقارير حالة/اختبار.
 
 ### Known limitations
 - أوزان inswapper غير مضمّنة.
