@@ -67,7 +67,9 @@ class DashboardPage(QWidget):
         for label, page in (("استوديو الوجه", "studio"), ("الكاميرا المباشرة", "live"),
                             ("استوديو الصور", "image"), ("استوديو الفيديو", "video"),
                             ("العتاد", "hardware"), ("النماذج", "models")):
-            buttons.addWidget(button(label)).clicked.connect(lambda _=False, p=page: self.navigate(p))
+            quick_button = button(label)
+            quick_button.clicked.connect(lambda _=False, p=page: self.navigate(p))
+            buttons.addWidget(quick_button)
         quick.body.addLayout(buttons)
         root.addWidget(quick)
         root.addStretch(1)

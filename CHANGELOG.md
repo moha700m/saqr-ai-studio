@@ -17,6 +17,7 @@
 - مثبّت Windows: PyInstaller + Inno Setup + postinstall.
 - أربعة سير عمل GitHub Actions.
 - 53 اختبار pytest وتقارير حالة/اختبار.
+- تشغيل سطح المكتب offscreen والتحقق من الجسر المدمج عبر HTTP.
 
 ### Known limitations
 - أوزان inswapper غير مضمّنة.
