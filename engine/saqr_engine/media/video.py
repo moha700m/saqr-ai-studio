@@ -8,6 +8,7 @@ available; if it is not, the video is still exported without audio.
 from __future__ import annotations
 
 import logging
+import os
 import shutil
 import subprocess
 import tempfile
@@ -159,7 +160,9 @@ def process_video(
 
     # Write to a temp sibling so a cancelled job never leaves a half-playable file
     # at the destination path.
-    tmp_out = Path(tempfile.mkstemp(suffix=".mp4", dir=str(target.parent))[1])
+    handle, tmp_name = tempfile.mkstemp(suffix=".mp4", dir=str(target.parent))
+    os.close(handle)  # Windows refuses to replace/delete a file with an open descriptor
+    tmp_out = Path(tmp_name)
     writer: FFmpegWriter | None = None
     frames = 0
     started = time.perf_counter()

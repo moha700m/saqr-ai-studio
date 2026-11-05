@@ -146,7 +146,13 @@ def detect_cpu() -> CPUInfo:
         physical_cores=psutil.cpu_count(logical=False) or 0,
         logical_cores=psutil.cpu_count(logical=True) or 0,
     )
-    freq = psutil.cpu_freq()
+    freq = None
+    freq_fn = getattr(psutil, "cpu_freq", None)  # not exposed on every platform/version
+    if callable(freq_fn):
+        try:
+            freq = freq_fn()
+        except (NotImplementedError, OSError):
+            freq = None
     if freq:
         info.base_mhz = round(freq.min or 0, 1) or None
         info.max_mhz = round(freq.max or 0, 1) or None
