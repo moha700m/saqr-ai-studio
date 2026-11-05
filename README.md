@@ -32,6 +32,15 @@
 
 ---
 
+## روابط
+
+- المستودع: https://github.com/moha700m/saqr-ai-studio
+- الإصدار والمثبّت: https://github.com/moha700m/saqr-ai-studio/releases/tag/v0.9.0
+- ملف `SAQR-AI-Setup.exe` (94.8 MB): https://github.com/moha700m/saqr-ai-studio/releases/download/v0.9.0/SAQR-AI-Setup.exe
+  SHA-256: `35261f4605cd0298596bf13563af86c559c7c8e63daebcf957baf01e60258c45`
+- الموقع الثابت مبني على فرع `gh-pages`؛ نشر GitHub Pages عالق حاليًا
+  (`building` لأكثر من 15 دقيقة). راجع `docs/DEPLOYMENT.md`.
+
 ## البدء السريع (Linux/macOS)
 
 ```bash

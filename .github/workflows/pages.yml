@@ -6,19 +6,14 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 concurrency:
   group: pages
   cancel-in-progress: true
 
 jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  publish:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -36,9 +31,15 @@ jobs:
           node ../scripts/prepare_web_assets.mjs
           npm run build
           cp dist/index.html dist/404.html
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
+      # GitHub Pages is configured to serve the gh-pages branch (legacy builder).
+      # The Pages API's workflow/artifact deployment stalled for this account, so
+      # the branch publisher is the reliable path.
+      - name: Publish gh-pages
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          path: web/dist
-      - id: deployment
-        uses: actions/deploy-pages@v4
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./web/dist
+          publish_branch: gh-pages
+          force_orphan: true
+          user_name: "github-actions[bot]"
+          user_email: "github-actions[bot]@users.noreply.github.com"

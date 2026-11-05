@@ -5,7 +5,7 @@
 | الهدف | الحالة | الرابط |
 |---|---|---|
 | GitHub (عام) | منشور | https://github.com/moha700m/saqr-ai-studio |
-| GitHub Pages (عرض ثابت) | قيد النشر عند الكتابة | https://moha700m.github.io/saqr-ai-studio/ |
+| GitHub Pages (عرض ثابت) | **غير منشور** — البناء عالق في `building` | https://moha700m.github.io/saqr-ai-studio/ |
 | Cloudflare Pages | سير عمل جاهز، لا توكن | — |
 | مثبّت Windows | إصدار `v0.9.0` | صفحة Releases |
 
